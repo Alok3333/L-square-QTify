@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Hero from "../Hero/Hero";
 
 function MainPage() {
   return (
-    <div>MainPage</div>
-  )
+    <div>
+      <Hero />
+    </div>
+  );
 }
 
-export default MainPage
+export default MainPage;
