@@ -5,6 +5,7 @@ import Cart from "../Cart/Cart";
 
 const Section = () => {
   const [albums, setAlbums] = useState([]);
+  const [isAlbumShow, setIsAlbumShow] = useState(false);
 
   const API_URL = "https://qtify-backend-labs.crio.do/albums/top";
 
@@ -21,6 +22,10 @@ const Section = () => {
     } catch (err) {
       console.log(err, "error from catch block");
     }
+  };
+
+  const handleCollapse = () => {
+    setIsAlbumShow((prev) => !prev);
   };
 
   return (
@@ -60,8 +65,9 @@ const Section = () => {
             fontSize: "20px",
             color: "var(--green)",
           }}
+          onClick={handleCollapse}
         >
-          Show All
+          {isAlbumShow ? "Show All" : "Collapse"}
         </Typography>
       </Box>
       <Grid2

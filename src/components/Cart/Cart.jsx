@@ -39,6 +39,7 @@ function Cart({ title, image, follows }) {
           >
             <Chip
               sx={{
+                borderRadius: "10px !important",
                 background: "var(--color-black)",
                 color: "var(--color-white)",
               }}
@@ -52,7 +53,7 @@ function Cart({ title, image, follows }) {
       </Card>
       <Typography
         sx={{
-          mt:1,
+          mt: 1,
           fontFamily: "Poppins, sans-serif",
           fontWeight: 400,
           fontSize: "14px",
