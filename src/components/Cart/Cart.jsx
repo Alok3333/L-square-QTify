@@ -13,11 +13,11 @@ import React from "react";
 
 function Cart({ title, image, follows }) {
   return (
-    <Box sx={{ marginLeft: 3 }}>
+    <Box sx={{ marginLeft: 0 }}>
       <Card
         sx={{
-          maxWidth: 300,
-          maxHeight: 400,
+          maxWidth: 159,
+          maxHeight: 250,
           background: "var(--color-black)",
           borderRadius: "10px",
         }}
@@ -25,7 +25,7 @@ function Cart({ title, image, follows }) {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="250"
+            height="170"
             image={image}
             alt="song1"
             sx={{ borderRadius: "10px 10px 0px 0px" }}
