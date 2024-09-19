@@ -61,7 +61,7 @@ const Section = () => {
             color: "var(--green)",
           }}
         >
-          Show all
+          Show All
         </Typography>
       </Box>
       <Grid2
@@ -75,8 +75,8 @@ const Section = () => {
         {albums.map((item) => (
           <Grid2
             key={item.id}
-            // size={{ xs: 12, md: 2 }}
-            sx={{ width: "160px" }}
+            size={{ xs: 12, md: 1.486 }}
+            // sx={{ width: "200px" }}
           >
             <Cart
               title={item.title}
@@ -87,7 +87,7 @@ const Section = () => {
         ))}
       </Grid2>
 
-      <Box
+      {/* <Box
         sx={{
           padding: "0px 0px",
           display: "flex",
@@ -142,7 +142,7 @@ const Section = () => {
             />
           </Grid2>
         ))}
-      </Grid2>
+      </Grid2> */}
     </Box>
   );
 };

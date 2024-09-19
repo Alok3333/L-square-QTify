@@ -16,8 +16,8 @@ function Cart({ title, image, follows }) {
     <Box sx={{ marginLeft: 0 }}>
       <Card
         sx={{
-          maxWidth: 159,
-          maxHeight: 250,
+          maxWidth: 279,
+          maxHeight: 350,
           background: "var(--color-black)",
           borderRadius: "10px",
         }}
@@ -25,7 +25,7 @@ function Cart({ title, image, follows }) {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="170"
+            height="270"
             image={image}
             alt="song1"
             sx={{ borderRadius: "10px 10px 0px 0px" }}
