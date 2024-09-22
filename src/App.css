@@ -13,7 +13,9 @@
   box-sizing: border-box;
 }
 
-.swiper-button-next, .swiper-button-prev {
+.swiper-button-next,
+.swiper-button-prev {
+  top: 43% !important;
   background-color: var(--green);
   width: 32px !important;
   height: 32px !important;

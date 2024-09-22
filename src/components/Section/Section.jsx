@@ -17,12 +17,16 @@ import { Zoom, Navigation, Pagination } from "swiper/modules";
 
 const Section = () => {
   const [albums, setAlbums] = useState([]);
-  const [isAlbumShow, setIsAlbumShow] = useState(false);
+  const [newAlbums, setNewAlbums] = useState([]);
+  const [isTopAlbumShow, setIsTopAlbumShow] = useState(false);
+  const [isNewAlbumShow, setIsNewAlbumShow] = useState(false);
 
   const API_URL = "https://qtify-backend-labs.crio.do/albums/top";
+  const API_URL_NEW_ALBUM = "https://qtify-backend-labs.crio.do/albums/new";
 
   useEffect(() => {
     getAlbumData();
+    getNewAlbumData();
   }, []);
 
   const getAlbumData = async () => {
@@ -36,165 +40,226 @@ const Section = () => {
     }
   };
 
-  const handleCollapse = () => {
-    setIsAlbumShow((prev) => !prev);
+  const getNewAlbumData = async () => {
+    try {
+      const response = await axios.get(API_URL_NEW_ALBUM);
+
+      // console.log(response.data, "result");
+      setNewAlbums(response.data);
+    } catch (err) {
+      console.log(err, "error from catch block");
+    }
+  };
+
+  const handleTopAlbumCollapse = () => {
+    setIsTopAlbumShow((prev) => !prev);
+  };
+
+  const handleNewAlbumCollapse = () => {
+    setIsNewAlbumShow((prev) => !prev);
   };
 
   return (
-    <Box
-      sx={{
-        px: "30px",
-        display: "block",
-      }}
-    >
+    <>
       <Box
         sx={{
-          padding: "0px 0px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 2,
+          px: "30px",
+          display: "block",
         }}
       >
-        <Typography
+        <Box
           sx={{
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 600,
-            fontSize: "20px",
+            padding: "0px 0px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
           }}
         >
-          Top Albums
-        </Typography>
-        <Typography
-          component="button"
-          sx={{
-            background: "none",
-            outline: "none",
-            border: "none",
-            cursor: "pointer",
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 600,
-            fontSize: "20px",
-            color: "var(--green)",
-          }}
-          onClick={handleCollapse}
-        >
-          {!isAlbumShow ? "Show All" : "Collapse"}
-        </Typography>
-      </Box>
-
-      {!isAlbumShow ? (
-        <>
-          {/* Swiper use here */}
-          <Swiper
-            slidesPerView={7}
-            // spaceBetween={50}
-            style={{
-              "--swiper-navigation-color": "var(--color-white)",
-              "--swiper-pagination-color": "var(--color-white)",
-              "--swiper-navigation-size": "16px",
+          <Typography
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 600,
+              fontSize: "20px",
             }}
-            zoom={true}
-            navigation={true}
-            // pagination={{
-            //   clickable: true,
-            // }}
-            modules={[Zoom, Navigation, Pagination]}
-            className="mySwiper"
           >
+            Top Albums
+          </Typography>
+          <Typography
+            component="button"
+            sx={{
+              background: "none",
+              outline: "none",
+              border: "none",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 600,
+              fontSize: "20px",
+              color: "var(--green)",
+            }}
+            onClick={handleTopAlbumCollapse}
+          >
+            {!isTopAlbumShow ? "Show All" : "Collapse"}
+          </Typography>
+        </Box>
+
+        {!isTopAlbumShow ? (
+          <>
+            {/* Swiper use here */}
+            <Swiper
+              slidesPerView={7}
+              // spaceBetween={50}
+              style={{
+                "--swiper-navigation-color": "var(--color-white)",
+                "--swiper-pagination-color": "var(--color-white)",
+                "--swiper-navigation-size": "16px",
+              }}
+              zoom={true}
+              navigation={true}
+              // pagination={{
+              //   clickable: true,
+              // }}
+              modules={[Zoom, Navigation, Pagination]}
+              className="mySwiper"
+            >
+              <Grid2 container spacing={0}>
+                {albums.map((item) => (
+                  <SwiperSlide>
+                    <Grid2 key={item.id}>
+                      <Cart
+                        title={item.title}
+                        image={item.image}
+                        follows={item.follows}
+                      />
+                    </Grid2>
+                  </SwiperSlide>
+                ))}
+              </Grid2>
+            </Swiper>
+          </>
+        ) : (
+          <>
             <Grid2 container spacing={0}>
               {albums.map((item) => (
-                <SwiperSlide>
-                  <Grid2
-                    key={item.id}
-                  >
-                    <Cart
-                      title={item.title}
-                      image={item.image}
-                      follows={item.follows}
-                    />
-                  </Grid2>
-                </SwiperSlide>
+                <Grid2 key={item.id} sx={{ width: "263px", my: 2 }}>
+                  <Cart
+                    title={item.title}
+                    image={item.image}
+                    follows={item.follows}
+                  />
+                </Grid2>
               ))}
             </Grid2>
-          </Swiper>
-        </>
-      ) : (
-        <>
-          <Grid2 container spacing={0}>
-            {albums.map((item) => (
-              <Grid2
-                key={item.id}
-                sx={{ width: "263px", my:2 }}
-              >
-                <Cart
-                  title={item.title}
-                  image={item.image}
-                  follows={item.follows}
-                />
-              </Grid2>
-            ))}
-          </Grid2>
-        </>
-      )}
-
-      {/* <Box
-        sx={{
-          padding: "0px 0px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 2,
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 600,
-            fontSize: "20px",
-          }}
-        >
-          New Albums
-        </Typography>
-        <Typography
-          component="button"
-          sx={{
-            background: "none",
-            outline: "none",
-            border: "none",
-            cursor: "pointer",
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 600,
-            fontSize: "20px",
-            color: "var(--green)",
-          }}
-        >
-          Show all
-        </Typography>
+          </>
+        )}
       </Box>
-      <Grid2
-        container
-        sx={{
-          // margin: "0px 0px",
-          gap: "40px",
+      <hr
+        style={{
+          marginTop: "20px",
+          marginBottom: "20px",
+          border: "1px solid var(--green)",
         }}
-        spacing={0}
+      />
+      <Box
+        sx={{
+          px: "30px",
+          display: "block",
+        }}
       >
-        {albums.map((item) => (
-          <Grid2
-            key={item.id}
-            // size={{ xs: 12, md: 2 }}
-            sx={{ width: "160px" }}
+        <Box
+          sx={{
+            padding: "0px 0px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 600,
+              fontSize: "20px",
+            }}
           >
-            <Cart
-              title={item.title}
-              image={item.image}
-              follows={item.follows}
-            />
-          </Grid2>
-        ))}
-      </Grid2> */}
-    </Box>
+            New Albums
+          </Typography>
+          <Typography
+            component="button"
+            sx={{
+              background: "none",
+              outline: "none",
+              border: "none",
+              cursor: "pointer",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 600,
+              fontSize: "20px",
+              color: "var(--green)",
+            }}
+            onClick={handleNewAlbumCollapse}
+          >
+            {!isNewAlbumShow ? "Show All" : "Collapse"}
+          </Typography>
+        </Box>
+
+        {!isNewAlbumShow ? (
+          <>
+            {/* Swiper use here */}
+            <Swiper
+              slidesPerView={7}
+              // spaceBetween={50}
+              style={{
+                "--swiper-navigation-color": "var(--color-white)",
+                "--swiper-pagination-color": "var(--color-white)",
+                "--swiper-navigation-size": "16px",
+              }}
+              zoom={true}
+              navigation={true}
+              // pagination={{
+              //   clickable: true,
+              // }}
+              modules={[Zoom, Navigation, Pagination]}
+              className="mySwiper"
+            >
+              <Grid2 container spacing={0}>
+                {newAlbums.map((item) => (
+                  <SwiperSlide>
+                    <Grid2 key={item.id}>
+                      <Cart
+                        title={item.title}
+                        image={item.image}
+                        follows={item.follows}
+                      />
+                    </Grid2>
+                  </SwiperSlide>
+                ))}
+              </Grid2>
+            </Swiper>
+          </>
+        ) : (
+          <>
+            <Grid2 container spacing={0}>
+              {newAlbums.map((item) => (
+                <Grid2 key={item.id} sx={{ width: "263px", my: 2 }}>
+                  <Cart
+                    title={item.title}
+                    image={item.image}
+                    follows={item.follows}
+                  />
+                </Grid2>
+              ))}
+            </Grid2>
+          </>
+        )}
+      </Box>
+      <hr
+        style={{
+          marginTop: "20px",
+          marginBottom: "20px",
+          border: "1px solid var(--green)",
+        }}
+      />
+    </>
   );
 };
 

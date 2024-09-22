@@ -2,7 +2,6 @@ import {
   Box,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Chip,
@@ -17,7 +16,7 @@ function Cart({ title, image, follows }) {
       <Card
         sx={{
           maxWidth: 259,
-          px:3,
+          mx:3,
           maxHeight: 300,
           background: "var(--color-black)",
           borderRadius: "10px",
