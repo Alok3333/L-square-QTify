@@ -16,16 +16,18 @@ function Cart({ title, image, follows }) {
     <Box sx={{ marginLeft: 0 }}>
       <Card
         sx={{
-          maxWidth: 279,
-          maxHeight: 350,
+          maxWidth: 259,
+          px:3,
+          maxHeight: 300,
           background: "var(--color-black)",
           borderRadius: "10px",
+          // gap: "40px",
         }}
       >
         <CardActionArea>
           <CardMedia
             component="img"
-            height="270"
+            height="210"
             image={image}
             alt="song1"
             sx={{ borderRadius: "10px 10px 0px 0px" }}
@@ -54,6 +56,7 @@ function Cart({ title, image, follows }) {
       <Typography
         sx={{
           mt: 1,
+          px:3,
           fontFamily: "Poppins, sans-serif",
           fontWeight: 400,
           fontSize: "14px",
