@@ -10,13 +10,15 @@ import {
 import React from "react";
 // import englishSong from "../../assets/english_song.png";
 
-function Cart({ title, image, follows }) {
+function Cart(props) {
+  const { title, image, follows, likes } = props;
+
   return (
     <Box sx={{ marginLeft: 0 }}>
       <Card
         sx={{
           maxWidth: 259,
-          mx:3,
+          mx: 3,
           maxHeight: 300,
           background: "var(--color-black)",
           borderRadius: "10px",
@@ -38,14 +40,27 @@ function Cart({ title, image, follows }) {
               padding: "10px",
             }}
           >
-            <Chip
-              sx={{
-                borderRadius: "10px !important",
-                background: "var(--color-black)",
-                color: "var(--color-white)",
-              }}
-              label={`${follows} Follows`}
-            />
+            {follows && (
+              <Chip
+                sx={{
+                  borderRadius: "10px !important",
+                  background: "var(--color-black)",
+                  color: "var(--color-white)",
+                }}
+                label={`${follows} Follows`}
+              />
+            )}
+
+            {likes && (
+              <Chip
+                sx={{
+                  borderRadius: "10px !important",
+                  background: "var(--color-black)",
+                  color: "var(--color-white)",
+                }}
+                label={`${likes} Likes`}
+              />
+            )}
           </CardContent>
         </CardActionArea>
         {/* <CardActions>
@@ -55,7 +70,7 @@ function Cart({ title, image, follows }) {
       <Typography
         sx={{
           mt: 1,
-          px:3,
+          px: 3,
           fontFamily: "Poppins, sans-serif",
           fontWeight: 400,
           fontSize: "14px",
