@@ -13,14 +13,16 @@ import "swiper/css/pagination";
 import Cart from "../Cart/Cart";
 
 // import required modules
-import { Zoom, Navigation, Pagination } from "swiper/modules";
+import { Zoom, Navigation } from "swiper/modules";
 
 const SongSection = () => {
   const [albums, setAlbums] = useState([]);
   const [tabs, setTabs] = useState([]);
 
+  const [filteredAlbum, setFilteredAlbum] = useState([]);
+
   // State for tab value
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("all");
 
   // Handle change for new value
   const handleChange = (e, newValue) => {
@@ -36,11 +38,17 @@ const SongSection = () => {
     getTabs();
   }, []);
 
+  useEffect(() => {
+    if (value === "all") {
+      return setFilteredAlbum(albums);
+    }
+    const filterData = albums.filter((item) => item.genre.key === value);
+    setFilteredAlbum(filterData);
+  }, [albums, value]);
+
   const getAlbumData = async () => {
     try {
       const response = await axios.get(API_URL);
-
-      // console.log(response.data, "result");
       setAlbums(response.data);
     } catch (err) {
       console.log(err, "error from catch block");
@@ -50,13 +58,14 @@ const SongSection = () => {
   const getTabs = async () => {
     try {
       const res = await axios.get(API_URL_TABS);
-
-      // console.log(res.data.data, "result data");
       setTabs(res.data.data);
     } catch (err) {
       console.log(err, "error from tabs function");
     }
   };
+
+  // const filter = useMemo(() => albums.filter((item) => item.genre.key===value) ,[albums, value]);
+  // console.log(filter, "+++++++++++");
 
   return (
     <>
@@ -87,25 +96,48 @@ const SongSection = () => {
         </Box>
 
         {/* Tabs component*/}
-        <Box sx={{ width: "100%", mb: 3 }}>
+        <Typography component="div" sx={{ width: "100%", mb: 3 }}>
           <Tabs
             value={value}
             onChange={handleChange}
             textColor="info"
-            indicatorColor="secondary"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "var(--green)",
+                height: "4px",
+                borderRadius: "2px",
+              },
+            }}
+            // indicatorColor="secondary"
             aria-label="secondary tabs example"
           >
-            <Tab value={0} label="All" />
-            {tabs.map((tab, i) => (
-              <Tab key={i} value={i + 1} label={tab.label} />
+            <Tab
+              value="all"
+              label="All"
+              sx={{
+                fontFamily: "Poppins, system-ui",
+                fontWeight: 600,
+                fontSize: "16px",
+              }}
+            />
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.key}
+                value={tab.key}
+                label={tab.label}
+                sx={{
+                  fontFamily: "Poppins, system-ui",
+                  fontWeight: 600,
+                  fontSize: "16px",
+                }}
+              />
             ))}
           </Tabs>
-        </Box>
+        </Typography>
 
         {/* Swiper use here */}
         <Swiper
           slidesPerView={7}
-          // spaceBetween={50}
           style={{
             "--swiper-navigation-color": "var(--color-white)",
             "--swiper-pagination-color": "var(--color-white)",
@@ -113,14 +145,11 @@ const SongSection = () => {
           }}
           zoom={true}
           navigation={true}
-          // pagination={{
-          //   clickable: true,
-          // }}
-          modules={[Zoom, Navigation, Pagination]}
+          modules={[Zoom, Navigation]}
           className="mySwiper"
         >
           <Grid2 container spacing={0}>
-            {albums.map((item) => (
+            {filteredAlbum.map((item) => (
               <SwiperSlide key={item.id}>
                 <Grid2>
                   <Cart
