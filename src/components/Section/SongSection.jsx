@@ -1,4 +1,4 @@
-import { Box, Grid2, Typography } from "@mui/material";
+import { Box, Grid2, Tab, Tabs, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,11 +17,23 @@ import { Zoom, Navigation, Pagination } from "swiper/modules";
 
 const SongSection = () => {
   const [albums, setAlbums] = useState([]);
+  const [tabs, setTabs] = useState([]);
 
+  // State for tab value
+  const [value, setValue] = useState(0);
+
+  // Handle change for new value
+  const handleChange = (e, newValue) => {
+    setValue(newValue);
+  };
+
+  // Api url
   const API_URL = "https://qtify-backend-labs.crio.do/songs";
+  const API_URL_TABS = "https://qtify-backend-labs.crio.do/genres";
 
   useEffect(() => {
     getAlbumData();
+    getTabs();
   }, []);
 
   const getAlbumData = async () => {
@@ -32,6 +44,17 @@ const SongSection = () => {
       setAlbums(response.data);
     } catch (err) {
       console.log(err, "error from catch block");
+    }
+  };
+
+  const getTabs = async () => {
+    try {
+      const res = await axios.get(API_URL_TABS);
+
+      // console.log(res.data.data, "result data");
+      setTabs(res.data.data);
+    } catch (err) {
+      console.log(err, "error from tabs function");
     }
   };
 
@@ -63,6 +86,22 @@ const SongSection = () => {
           </Typography>
         </Box>
 
+        {/* Tabs component*/}
+        <Box sx={{ width: "100%", mb: 3 }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="info"
+            indicatorColor="secondary"
+            aria-label="secondary tabs example"
+          >
+            <Tab value={0} label="All" />
+            {tabs.map((tab, i) => (
+              <Tab key={i} value={i + 1} label={tab.label} />
+            ))}
+          </Tabs>
+        </Box>
+
         {/* Swiper use here */}
         <Swiper
           slidesPerView={7}
@@ -82,8 +121,8 @@ const SongSection = () => {
         >
           <Grid2 container spacing={0}>
             {albums.map((item) => (
-              <SwiperSlide>
-                <Grid2 key={item.id}>
+              <SwiperSlide key={item.id}>
+                <Grid2>
                   <Cart
                     title={item.title}
                     image={item.image}

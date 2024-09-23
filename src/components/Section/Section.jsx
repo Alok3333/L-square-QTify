@@ -124,8 +124,8 @@ const Section = () => {
             >
               <Grid2 container spacing={0}>
                 {albums.map((item) => (
-                  <SwiperSlide>
-                    <Grid2 key={item.id}>
+                  <SwiperSlide key={item.id}>
+                    <Grid2>
                       <Cart
                         title={item.title}
                         image={item.image}
@@ -223,8 +223,8 @@ const Section = () => {
             >
               <Grid2 container spacing={0}>
                 {newAlbums.map((item) => (
-                  <SwiperSlide>
-                    <Grid2 key={item.id}>
+                  <SwiperSlide key={item.id}>
+                    <Grid2>
                       <Cart
                         title={item.title}
                         image={item.image}
